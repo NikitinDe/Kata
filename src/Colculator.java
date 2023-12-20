@@ -1,29 +1,29 @@
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Colculator extends Converter {
-
-
-
-
-    public static void main(String[] args){
+    
+    public static void main(String[] args) throws Exception {
         Scanner input = new Scanner(System.in);
         Main result = new Main();
         System.out.println("Введите выражение:");
         String exp = input.nextLine();
         String answer = result.calc(exp);
         System.out.println("Ответ:\n" + answer);
+
     }
+
 }
 class Main{
-    public static String calc(String input){
+    public static String calc(String input)  throws Exception {
         boolean romanOrArab = false;
         String exception = "throws Exception";
         Main romanExamination = new Main();
         Main arabToRoman = new Main();
         int result = 0;
-        String[] inputSplit = input.split("");
+        String[] inputSplit = input.split(" ");
         if (inputSplit.length != 3){
-            return exception;
+            throw new IOException(exception);
         }
         Integer a = 0;
         Integer b = 0;
@@ -36,11 +36,11 @@ class Main{
                 b = romanExamination.romanToArab(inputSplit[2]);
                 romanOrArab = true;
             } catch (NumberFormatException ex) {
-                return exception;
+                throw new IOException(exception) ;
             }
         }
         if ((a < 1) || (a > 10) || (b < 1) || (b > 10)){
-            return exception;
+            throw new IOException(exception);
         }
         String sign = inputSplit[1];
         switch (sign) {
@@ -49,13 +49,13 @@ class Main{
             case "*" -> result = a * b;
             case "/" -> result = a / b;
             default -> {
-                return exception;
+                throw  new IOException(exception);
             }
         }
         String output;
         if (romanOrArab){
             if(result < 1){
-                return exception;
+                throw new IOException(exception);
             } else {
                 output = arabToRoman.arabToRome(result);
             }
